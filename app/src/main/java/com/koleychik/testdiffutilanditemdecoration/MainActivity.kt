@@ -3,6 +3,9 @@ package com.koleychik.testdiffutilanditemdecoration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = MainAdapter()
         recyclerView.adapter = adapter
+        createItemDecoration()
 
         findViewById<Button>(R.id.btnInsert).setOnClickListener {
             val newList = mutableListOf<MainModel>()
@@ -31,8 +35,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun createItemDecoration(){
+    private fun createItemDecoration() {
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                applicationContext,
+                LinearLayoutManager.VERTICAL
+            )
+//                .apply {
+//                    setDrawable(
+//                        ContextCompat.getDrawable(
+//                            applicationContext,
+//                            R.drawable.simple_item_decoration
+//                        )!!
+//                    )
+//                }
+        )
 
+//        recyclerView.addItemDecoration(
+//            DividerItemDecoration(
+//                applicationContext,
+//                LinearLayoutManager.VERTICAL
+//            )
+//                .apply {
+//                    setDrawable(
+//                        ContextCompat.getDrawable(
+//                            applicationContext,
+//                            R.drawable.simple_item_decoration
+//                        )!!
+//                    )
+//                })
     }
 
 }
