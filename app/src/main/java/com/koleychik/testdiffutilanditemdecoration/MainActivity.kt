@@ -6,6 +6,11 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+
+    val recyclerView by lazy {
+        findViewById<RecyclerView>(R.id.rv)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val repository = MainRepository()
 
         val adapter = MainAdapter()
-        findViewById<RecyclerView>(R.id.rv).adapter = adapter
+        recyclerView.adapter = adapter
 
         findViewById<Button>(R.id.btnInsert).setOnClickListener {
             val newList = mutableListOf<MainModel>()
@@ -24,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnInsertWithoutDiffUtil).setOnClickListener {
             adapter.insertWithout(repository.getList())
         }
+    }
+
+    private fun createItemDecoration(){
 
     }
+
 }
