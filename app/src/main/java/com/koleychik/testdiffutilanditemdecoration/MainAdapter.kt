@@ -3,15 +3,27 @@ package com.koleychik.testdiffutilanditemdecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
+import java.lang.Exception
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     var list = mutableListOf<MainModel>()
 
-    fun insertWithout(newList: List<MainModel>){
+    fun delete(model: MainModel) {
+        val newList = mutableListOf<MainModel>()
+        newList.addAll(list)
+        newList.remove(model)
+
+        updateList(newList)
+    }
+
+    fun insertWithout(newList: List<MainModel>) {
         list.addAll(newList)
         notifyDataSetChanged()
     }
@@ -45,12 +57,35 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     override fun getItemCount(): Int = list.size
 
-    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(model: MainModel) {
-            itemView.apply {
-                findViewById<TextView>(R.id.number).text = model.id.toString()
-                findViewById<TextView>(R.id.text).text = model.text
+            CoroutineScope(Dispatchers.Default).launch {
+                delay(500)
+                withContext(Dispatchers.Main) {
+                    itemView.apply {
+                        findViewById<TextView>(R.id.number).text = model.id.toString()
+                        findViewById<TextView>(R.id.text).text = model.text
+                        setOnClickListener {
+                            startAnimDelete(model)
+                        }
+                    }
+                }
             }
+        }
+
+        private fun startAnimDelete(model: MainModel) {
+            val anim = AnimationUtils.loadAnimation(itemView.context, R.anim.item_rv_move_to_left)
+            anim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(p0: Animation?) {}
+
+                override fun onAnimationEnd(p0: Animation?) {
+                    delete(model)
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {}
+
+            })
+            itemView.startAnimation(anim)
         }
     }
 }

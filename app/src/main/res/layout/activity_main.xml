@@ -33,6 +33,12 @@
             android:layout_margin="5dp"
             android:text="insert"/>
 
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="deleteModel 0"/>
 
     </LinearLayout>
 

@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnInsertWithoutDiffUtil).setOnClickListener {
             adapter.insertWithout(repository.getList())
         }
+        findViewById<Button>(R.id.btnDelete).setOnClickListener {
+            adapter.delete(adapter.list[0])
+        }
     }
 
     private fun createItemDecoration(){
